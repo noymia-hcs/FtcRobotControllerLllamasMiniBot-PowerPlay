@@ -53,7 +53,7 @@ public class Teleop extends LinearOpMode {
         telemetry.update();
 
         waitForStart();
-
+//
         while (opModeIsActive()) {
             // convert the RGB values to HSV values.
             // multiply by the SCALE_FACTOR.
