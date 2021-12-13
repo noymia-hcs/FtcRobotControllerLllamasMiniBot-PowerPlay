@@ -39,7 +39,7 @@ public class LlamaBot
     public DcMotor motorFrontRight; // motor 3
     public DcMotor motorRearRight; // motor 4
     public Servo claw;
-    public CRServo arm;
+    public DcMotor arm;
  //   public ColorSensor sensorColor;
   //  public DistanceSensor sensorDistance;
   //  public ColorSensor bottomSensorColor;
@@ -51,7 +51,7 @@ public class LlamaBot
     BNO055IMU               imu;  //Note: you must configure the IMU on I2C channel 0, port 0.
     Orientation             lastAngles = new Orientation();
     double                  globalAngle, power = .30, correction;
-
+    double                  clawPosition;
 
 
     static final double     SCALE_FACTOR = 75.0/75.0; //  if drive speed = .2 or .3 use 75.0/75.0;  .5 is 75.0/76.0 .4 is 75.0/75.5 if drive_speed = .1, use 1.0; if drive_speed = .3, use 75.0/77.0 note that .3 has hard time braking
@@ -62,6 +62,12 @@ public class LlamaBot
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.3;
     static final double     Arm_Speed               = 0.3;
+    static final int        ARM_BOTTOM              = 0;
+    static final int        ARM_TOP                 = 3000;
+    static final double     CLAW_OPEN               = 1;
+    static final double     CLAW_CLOSE              = 0.3;
+    static final double     CLAW_STEP               = 0.05;
+
 
 
     HardwareMap hwMap = null;
@@ -77,6 +83,8 @@ public class LlamaBot
         motorRearLeft = hwMap.dcMotor.get("motorRearLeft");
         motorFrontRight = hwMap.dcMotor.get("motorFrontRight");
         motorRearRight = hwMap.dcMotor.get("motorRearRight");
+        arm = hwMap.dcMotor.get("arm");
+        claw = hwMap.servo.get("claw");
 
         // get a reference to the color sensor.
         //sensorColor = hwMap.get(ColorSensor.class, "sensor_color_distance");
@@ -353,6 +361,28 @@ public class LlamaBot
     public void openClawByTime(double power, long time) throws InterruptedException {
         claw.setPosition(power);
         Thread.sleep(time);
+    }
+    public void clawInit(double position) {
+        clawPosition = position;
+        claw.setPosition(clawPosition);
+    }
+
+    public void openClawStep() throws InterruptedException {
+        clawPosition += CLAW_STEP;
+        if (clawPosition > CLAW_OPEN) {
+            clawPosition = CLAW_OPEN;
+        }
+        claw.setPosition(clawPosition);
+        Thread.sleep(50);
+    }
+
+    public void closeClawStep() throws InterruptedException {
+        clawPosition -= CLAW_STEP;
+        if (clawPosition < CLAW_CLOSE) {
+            clawPosition = CLAW_CLOSE;
+        }
+        claw.setPosition(clawPosition);
+        Thread.sleep(50);
     }
 /*
      public void spin(boolean clockwise, long time) throws InterruptedException {

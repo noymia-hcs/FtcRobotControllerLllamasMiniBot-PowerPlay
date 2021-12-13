@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
@@ -46,7 +47,7 @@ public class Teleop extends LinearOpMode {
         robot.motorRearLeft.setDirection(DcMotor.Direction.FORWARD);
         robot.motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
         robot.motorRearRight.setDirection(DcMotor.Direction.REVERSE);
-
+        robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
         telemetry.addData("Status", "Ready to Go");    //
@@ -54,6 +55,9 @@ public class Teleop extends LinearOpMode {
 
         waitForStart();
 
+        robot.arm.setTargetPosition(0);
+        robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.clawInit(robot.CLAW_CLOSE);
         while (opModeIsActive()) {
             // convert the RGB values to HSV values.
             // multiply by the SCALE_FACTOR.
@@ -91,6 +95,16 @@ public class Teleop extends LinearOpMode {
             float G2leftTrigger = gamepad2.left_trigger;
             float G2rightTrigger = gamepad2.right_trigger;
 
+            if (gamepad2.left_stick_y < 0) {
+                if (robot.arm.getTargetPosition() != robot.ARM_BOTTOM) {
+                    robot.arm.setTargetPosition(robot.ARM_BOTTOM);
+                }
+            } else if (gamepad2.left_stick_y > 0) {
+                if (robot.arm.getTargetPosition() != robot.ARM_TOP) {
+                    robot.arm.setTargetPosition(robot.ARM_TOP);
+                }
+            }
+            robot.arm.setPower(gamepad1.left_stick_y);
 
             //Driver 1 wheel speed control
             if (gamepad1.dpad_up) {
@@ -150,31 +164,11 @@ public class Teleop extends LinearOpMode {
                 telemetry.update();
 
             }
-/*
-            //Claw set position
-            if (gamepad1.left_bumper) {
-                robot.claw.setPosition(0.7);
-                telemetry.addData("Status", "Claw");    //
-                telemetry.update();
-            }
-            if (gamepad1.right_bumper) {
-                robot.claw.setPosition(1.0);
-                telemetry.addData("Status", "Claw");    //
-                telemetry.update();
-                idle();
-            }
 
             if (gamepad2.left_bumper) {
-                robot.claw.setPosition(0.0);
-                telemetry.addData("Status", "Claw");    //
-                telemetry.update();
-            }
-
-            if (gamepad2.right_bumper) {
-                robot.claw.setPosition(1.0);
-                telemetry.addData("Status", "Claw");    //
-                telemetry.update();
-                idle();
+                robot.closeClawStep();
+            } else if (gamepad2.right_bumper) {
+                robot.openClawStep();
             }
 
 /*
