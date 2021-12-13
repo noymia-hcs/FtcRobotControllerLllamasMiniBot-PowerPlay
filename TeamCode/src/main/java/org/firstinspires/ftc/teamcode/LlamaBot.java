@@ -616,7 +616,7 @@ public class LlamaBot
         moveArmByTime(1, 2000);
         driveForwardByTime(DRIVE_SPEED, 2000);
         moveArmByTime(1,2000);
-        turnByTime(redTeam, DRIVE_SPEED, 1850);
+  //      turnByTime(redTeam, DRIVE_SPEED, 1850);
         driveForwardByTime(3 * DRIVE_SPEED, 1800);
     }
 
