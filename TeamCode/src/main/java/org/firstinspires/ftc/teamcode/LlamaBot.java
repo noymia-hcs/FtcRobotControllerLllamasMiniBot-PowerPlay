@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -34,16 +35,22 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class LlamaBot
 {
+    static final int ARM_POSITION_FLOOR = 0;
+    static final int ARM_POSITION_L1_DROP = 350;
+    static final int ARM_POSITION_L1_DRIVE = 450;
+    static final int ARM_POSITION_L2_DROP = 1250;
+    static final int ARM_POSITION_L2_DRIVE = 1350;
+    static final int ARM_POSITION_L3_DROP = 2100;
+    static final int ARM_POSITION_L3_DRIVE = 2250;
+    static final int ARM_POSITION_TOP = 2500;
+
     public DcMotor motorFrontLeft;  // motor1
     public DcMotor motorRearLeft;  // motor 2
     public DcMotor motorFrontRight; // motor 3
     public DcMotor motorRearRight; // motor 4
     public Servo claw;
     public DcMotor arm;
- //   public ColorSensor sensorColor;
-  //  public DistanceSensor sensorDistance;
-  //  public ColorSensor bottomSensorColor;
-//    public CRServo spinner;
+    public CRServo spinner;
 
 
     private ElapsedTime     runtime = new ElapsedTime();
@@ -62,8 +69,9 @@ public class LlamaBot
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.3;
     static final double     Arm_Speed               = 0.3;
-    static final int        ARM_BOTTOM              = 0;
-    static final int        ARM_TOP                 = 3000;
+    static final int        ARM_BOTTOM              = ARM_POSITION_FLOOR;
+    static final int        ARM_TOP                 = ARM_POSITION_TOP;
+    static final double     ARM_SPEED               = 0.5;
     static final double     CLAW_OPEN               = 1;
     static final double     CLAW_CLOSE              = 0.3;
     static final double     CLAW_STEP               = 0.05;
@@ -73,40 +81,32 @@ public class LlamaBot
     HardwareMap hwMap = null;
     private ElapsedTime period =new ElapsedTime();
 
-    public LlamaBot(){ }
+    public LlamaBot() { }
 
 
-    public void init(HardwareMap ahwMap, LinearOpMode opmode) {
+    public void init(HardwareMap hwMap, LinearOpMode opmode) {
 
-        hwMap=ahwMap;
-        motorFrontLeft = hwMap.dcMotor.get("motorFrontLeft");
-        motorRearLeft = hwMap.dcMotor.get("motorRearLeft");
-        motorFrontRight = hwMap.dcMotor.get("motorFrontRight");
-        motorRearRight = hwMap.dcMotor.get("motorRearRight");
+        this.hwMap = hwMap;
         arm = hwMap.dcMotor.get("arm");
         claw = hwMap.servo.get("claw");
+        spinner = hwMap.crservo.get("spinner");
 
-        // get a reference to the color sensor.
-        //sensorColor = hwMap.get(ColorSensor.class, "sensor_color_distance");
-     //   bottomSensorColor = hwMap.get(ColorSensor.class,"Bottom Color Sensor");
-
-        // get a reference to the distance sensor that shares the same name.
-    //    sensorDistance = hwMap.get(DistanceSensor.class, "sensor_color_distance");
-
-       // claw = hwMap.servo.get("claw");
-       // arm = hwMap.crservo.get("arm");
-
-       // spinner = hwMap.crservo.get("spinner");
-
-
-        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorRearLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorRearRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        
         // reset to default
+        initMotors();
         initRunWithoutEncoder();
 
+        initIMU(opmode);
+
+        resetAngle(); // reset robot IMU angle to current heading. Zero.
+
+        armInit();
+
+        opmode.telemetry.addData("Status", "Ready for Start");
+        opmode.telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
+        opmode.telemetry.update();
+    }
+
+    public void initIMU(LinearOpMode opmode) {
         imu = hwMap.get(BNO055IMU.class, "imu");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -127,13 +127,6 @@ public class LlamaBot
             opmode.sleep(50);
             opmode.idle();
         }
-
-        resetAngle(); // reset robot IMU angle to current heading. Zero.
-
-        opmode.telemetry.addData("Status", "Ready for Start");
-        opmode.telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
-        opmode.telemetry.update();
-
     }
 
     public void encoderDrive(double speed,
@@ -218,25 +211,34 @@ public class LlamaBot
         }
     }
 
+    public void initMotors() {
+        motorFrontLeft = hwMap.dcMotor.get("motorFrontLeft");
+        motorRearLeft = hwMap.dcMotor.get("motorRearLeft");
+        motorFrontRight = hwMap.dcMotor.get("motorFrontRight");
+        motorRearRight = hwMap.dcMotor.get("motorRearRight");
+
+        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRearLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRearRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorRearLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
+        motorRearRight.setDirection(DcMotor.Direction.FORWARD);
+    }
+
     public void initRunWithEncoder()
     {
         motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRearLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRearRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-
-        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-        motorRearRight.setDirection(DcMotor.Direction.FORWARD);
-        motorRearLeft.setDirection(DcMotor.Direction.FORWARD);
-
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRearLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRearRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-        motorRearLeft.setDirection(DcMotor.Direction.REVERSE);
     }
 
     public void initRunWithoutEncoder()
@@ -245,11 +247,6 @@ public class LlamaBot
         motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorRearLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorRearRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
-        motorRearRight.setDirection(DcMotor.Direction.REVERSE);
-        motorRearLeft.setDirection(DcMotor.Direction.FORWARD);
     }
 
 
@@ -367,6 +364,18 @@ public class LlamaBot
         claw.setPosition(clawPosition);
     }
 
+    public void openClaw(int timeout) throws InterruptedException {
+        clawPosition = CLAW_OPEN;
+        claw.setPosition(clawPosition);
+        Thread.sleep(timeout);
+    }
+
+    public void closeClaw(int timeout) throws InterruptedException {
+        clawPosition = CLAW_CLOSE;
+        claw.setPosition(clawPosition);
+        Thread.sleep(timeout);
+    }
+
     public void openClawStep() throws InterruptedException {
         clawPosition += CLAW_STEP;
         if (clawPosition > CLAW_OPEN) {
@@ -384,7 +393,21 @@ public class LlamaBot
         claw.setPosition(clawPosition);
         Thread.sleep(50);
     }
-/*
+
+    public void armInit() {
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
+    public void armMoveToPosition(int position, LinearOpMode opmode) {
+        arm.setTargetPosition(position);
+        arm.setPower(0.7);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while (arm.getCurrentPosition() != position) {
+            opmode.idle();
+        }
+    }
+
+
      public void spin(boolean clockwise, long time) throws InterruptedException {
          double power;
          if (clockwise) {
@@ -396,7 +419,7 @@ public class LlamaBot
          Thread.sleep(time);
          spinner.setPower(0);
      }
-*/
+
 
 
 

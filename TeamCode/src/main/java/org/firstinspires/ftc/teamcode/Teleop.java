@@ -47,8 +47,6 @@ public class Teleop extends LinearOpMode {
         robot.motorRearLeft.setDirection(DcMotor.Direction.FORWARD);
         robot.motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
         robot.motorRearRight.setDirection(DcMotor.Direction.REVERSE);
-        robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
 
         telemetry.addData("Status", "Ready to Go");    //
         telemetry.update();
@@ -90,21 +88,23 @@ public class Teleop extends LinearOpMode {
 
             double G1rightStickY = gamepad1.right_stick_y;
             double G1leftStickY = gamepad1.left_stick_y;
+            double armSpeed = -gamepad2.left_stick_y * robot.ARM_SPEED;
             float G1rightTrigger = gamepad1.right_trigger;
             float G1leftTrigger = gamepad1.left_trigger;
             float G2leftTrigger = gamepad2.left_trigger;
             float G2rightTrigger = gamepad2.right_trigger;
-
-            if (gamepad2.left_stick_y < 0) {
+            if (armSpeed < 0) {
                 if (robot.arm.getTargetPosition() != robot.ARM_BOTTOM) {
                     robot.arm.setTargetPosition(robot.ARM_BOTTOM);
                 }
-            } else if (gamepad2.left_stick_y > 0) {
+            } else if (armSpeed > 0) {
                 if (robot.arm.getTargetPosition() != robot.ARM_TOP) {
                     robot.arm.setTargetPosition(robot.ARM_TOP);
                 }
             }
-            robot.arm.setPower(gamepad1.left_stick_y);
+            telemetry.addData("Arm Position", robot.arm.getCurrentPosition());
+
+            robot.arm.setPower(armSpeed);
 
             //Driver 1 wheel speed control
             if (gamepad1.dpad_up) {
