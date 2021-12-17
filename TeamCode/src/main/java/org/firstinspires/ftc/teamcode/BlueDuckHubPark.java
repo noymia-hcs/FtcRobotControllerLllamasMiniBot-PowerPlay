@@ -17,10 +17,10 @@ public class BlueDuckHubPark extends LinearOpMode {
 
         robot.closeClaw(300);
         robot.armMoveToPosition(LlamaBot.ARM_POSITION_L3_DRIVE, this);
-        robot.strafeRightByTime(robot.DRIVE_SPEED, 200);
-//        robot.spin(true, 3800);
+        robot.strafeRightByTime(robot.DRIVE_SPEED, 400);
+        robot.spin(true, 3800);
         robot.strafeLeftByTime(1/*robot.DRIVE_SPEED * 4*/, 3000);
-        robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1400);
+        robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1300);
         robot.armMoveToPosition(LlamaBot.ARM_POSITION_L3_DROP, this);
         robot.openClaw(300);
         robot.driveForwardByTime(-robot.DRIVE_SPEED, 100);

@@ -50,7 +50,7 @@ public class LlamaBot
     public DcMotor motorRearRight; // motor 4
     public Servo claw;
     public DcMotor arm;
-    public CRServo spinner;
+    public DcMotor spinner;
 
 
     private ElapsedTime     runtime = new ElapsedTime();
@@ -89,7 +89,7 @@ public class LlamaBot
         this.hwMap = hwMap;
         arm = hwMap.dcMotor.get("arm");
         claw = hwMap.servo.get("claw");
-        spinner = hwMap.crservo.get("spinner");
+        spinner = hwMap.dcMotor.get("spinner");
 
         // reset to default
         initMotors();
@@ -310,18 +310,7 @@ public class LlamaBot
         stopDriving();
     }
 
-/*
-    public void driveTillThisClose(double power, double distance) {
-        double howfar;
-
-        while (Double.isNaN(sensorDistance.getDistance(DistanceUnit.CM)) || sensorDistance.getDistance(DistanceUnit.CM) > distance) {
-            driveForward(power);
-        }
-
-        stopDriving();
-    }
-*/
-    public void strafeRight (double power)
+    public void strafeRight(double power)
     {
         motorFrontLeft.setPower(power);
         motorRearLeft.setPower(-power);
@@ -348,17 +337,6 @@ public class LlamaBot
         stopDriving();
     }
 
-    public void moveArmByTime(double power, long time) throws InterruptedException {
-        // power has to be above 0.3
-        arm.setPower(power);
-        Thread.sleep(time);
-        arm.setPower(0);
-    }
-
-    public void openClawByTime(double power, long time) throws InterruptedException {
-        claw.setPosition(power);
-        Thread.sleep(time);
-    }
     public void clawInit(double position) {
         clawPosition = position;
         claw.setPosition(clawPosition);
@@ -398,6 +376,7 @@ public class LlamaBot
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setDirection(DcMotorSimple.Direction.REVERSE);
     }
+
     public void armMoveToPosition(int position, LinearOpMode opmode) {
         arm.setTargetPosition(position);
         arm.setPower(0.7);

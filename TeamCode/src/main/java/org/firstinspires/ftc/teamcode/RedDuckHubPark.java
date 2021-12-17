@@ -18,14 +18,15 @@ public class RedDuckHubPark extends LinearOpMode {
         robot.closeClaw(300);
         robot.armMoveToPosition(LlamaBot.ARM_POSITION_L3_DRIVE, this);
         robot.driveForwardByTime(-robot.DRIVE_SPEED, 300);
-//        robot.spin(true, 3800);
+        robot.spin(true, 3800);
         robot.strafeLeftByTime(robot.DRIVE_SPEED * 4, 2200);
-        robot.driveForwardByTime(robot.DRIVE_SPEED * 4, 1650);
+        robot.driveForwardByTime(robot.DRIVE_SPEED * 4, 1750);
         robot.armMoveToPosition(LlamaBot.ARM_POSITION_L3_DROP, this);
         robot.openClaw(300);
         robot.driveForwardByTime(-robot.DRIVE_SPEED * 4, 1800);
         if (true) {
             robot.strafeRightByTime(robot.DRIVE_SPEED * 4, 1000);
+            robot.driveForwardByTime(-robot.DRIVE_SPEED, 300);
         } else {
             robot.strafeRightByTime(1 * robot.DRIVE_SPEED, 500);
             robot.driveForwardByTime(robot.DRIVE_SPEED * 2, 4500);
