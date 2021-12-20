@@ -99,24 +99,19 @@ public class Teleop extends LinearOpMode {
             if (gamepad1.dpad_up) {
                 speed_control = 1;
                 telemetry.addData("Status", "Setting Speed to 1");    //
-                telemetry.update();
             }
             if (gamepad1.dpad_down) {
                 speed_control = 0.25f;
                 telemetry.addData("Status", "Setting Speed to .25");    //
-                telemetry.update();
             }
             if (gamepad1.dpad_left) {
                 speed_control = 0.5f;
                 telemetry.addData("Status", "Setting Speed to .5");    //
-                telemetry.update();
             }
             if (gamepad1.dpad_right) {
                 speed_control = 0.5f;
                 telemetry.addData("Status", "Setting Speed to .5");    //
-                telemetry.update();
             }
-
 
             if (G1rightTrigger > 0 && G1leftTrigger == 0) {
 
@@ -127,8 +122,6 @@ public class Teleop extends LinearOpMode {
                 robot.motorRearRight.setPower(-G1rightTrigger * speed_control);
 
                 telemetry.addData("Status", "Strafing Right");    //
-                telemetry.update();
-
             } else if (G1leftTrigger > 0 && G1rightTrigger == 0) {
 
                 //Strafe Left
@@ -138,8 +131,6 @@ public class Teleop extends LinearOpMode {
                 robot.motorRearRight.setPower(G1leftTrigger * speed_control);
 
                 telemetry.addData("Status", "Strafing Left");    //
-                telemetry.update();
-
             } else {
 
                 //Tank Drive
@@ -149,8 +140,6 @@ public class Teleop extends LinearOpMode {
                 robot.motorRearRight.setPower(G1rightStickY * Math.abs(G1rightStickY) * speed_control);
 
                 telemetry.addData("Status", "Moving");    //
-                telemetry.update();
-
             }
 
             if (gamepad2.right_bumper) {
@@ -167,6 +156,9 @@ public class Teleop extends LinearOpMode {
             } else {
                 robot.spinner.setPower(0);
             }
+
+            telemetry.addData("Distance Sensor", robot.distance.getDistance(DistanceUnit.CM));
+            telemetry.update();
         }
     }
 }

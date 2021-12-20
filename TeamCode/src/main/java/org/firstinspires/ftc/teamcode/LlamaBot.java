@@ -51,6 +51,7 @@ public class LlamaBot
     public Servo claw;
     public DcMotor arm;
     public DcMotor spinner;
+    public DistanceSensor distance;
 
 
     private ElapsedTime     runtime = new ElapsedTime();
@@ -90,6 +91,7 @@ public class LlamaBot
         arm = hwMap.dcMotor.get("arm");
         claw = hwMap.servo.get("claw");
         spinner = hwMap.dcMotor.get("spinner");
+        distance = hwMap.get(DistanceSensor.class, "distance");
 
         // reset to default
         initMotors();
