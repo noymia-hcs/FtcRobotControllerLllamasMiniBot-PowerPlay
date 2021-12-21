@@ -47,7 +47,8 @@ public class BlueDuckHubWarehouseBarcode extends LinearOpMode {
             robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1200);
         } else {
             robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1120);
-        }robot.armMoveToPosition(dropPosition, this);
+        }
+        robot.armMoveToPosition(dropPosition, this);
         robot.openClaw(300);
         robot.driveForwardByTime(-1, 1300);
         robot.driveForwardByTime(-0.3, 600);

@@ -46,7 +46,7 @@ public class ZZBlueHubParkBarcode2 extends LinearOpMode {
 
         robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 900);
         robot.driveForward(0.2);
-        while (robot.distance.getDistance(DistanceUnit.CM) > 4) {
+        while (robot.distance.getDistance(DistanceUnit.CM) > 1) {
             idle();
         }
         robot.driveForward(0);
