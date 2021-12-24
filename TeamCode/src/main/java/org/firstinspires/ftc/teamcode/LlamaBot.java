@@ -158,9 +158,9 @@ public class LlamaBot
 
             // Determine new target position, and pass to motor controller
             newFrontLeftTarget = (motorFrontLeft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH));
-            newFrontRightTarget = (motorFrontRight.getCurrentPosition() - (int)(rightInches * COUNTS_PER_INCH));
-            newRearLeftTarget = -(motorRearLeft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH));
-            newRearRightTarget = -(motorRearRight.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH));
+            newFrontRightTarget = (motorFrontRight.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH));
+            newRearLeftTarget = (motorRearLeft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH));
+            newRearRightTarget = (motorRearRight.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH));
 
             motorFrontLeft.setTargetPosition(newFrontLeftTarget);
             motorFrontRight.setTargetPosition(newFrontRightTarget);
@@ -175,10 +175,11 @@ public class LlamaBot
             // reset the timeout time and start motion.
             runtime.reset();
 
-            motorFrontLeft.setPower(Math.abs(speed));
-            motorFrontRight.setPower(Math.abs(speed));
-            motorRearLeft.setPower(Math.abs(speed));
-            motorRearRight.setPower(-Math.abs(speed));
+            speed = Math.abs(speed);
+            motorFrontLeft.setPower(speed);
+            motorFrontRight.setPower(speed);
+            motorRearLeft.setPower(speed);
+            motorRearRight.setPower(speed);
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits

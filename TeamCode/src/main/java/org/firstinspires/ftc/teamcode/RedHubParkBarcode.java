@@ -16,7 +16,7 @@ public class RedHubParkBarcode extends LinearOpMode {
         waitForStart();
 
         robot.closeClaw(500);
-        robot.armMoveToPosition(LlamaBot.ARM_POSITION_L1_DRIVE, this);
+        robot.armMoveToPosition(LlamaBot.ARM_POSITION_L3_DRIVE, this);
         robot.driveForwardByTime(1, 800);
 
         int dropPosition = LlamaBot.ARM_POSITION_L3_DROP;
