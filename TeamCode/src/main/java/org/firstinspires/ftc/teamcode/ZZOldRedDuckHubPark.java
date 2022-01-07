@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
         import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
         import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "REDDuckHubPark", group = "18051")
-public class RedDuckHubPark extends LinearOpMode {
+@Autonomous(name = "ZZ OLD REDDuckHubPark", group = "18051")
+public class ZZOldRedDuckHubPark extends LinearOpMode {
 
     LlamaBot robot = new LlamaBot();
 
