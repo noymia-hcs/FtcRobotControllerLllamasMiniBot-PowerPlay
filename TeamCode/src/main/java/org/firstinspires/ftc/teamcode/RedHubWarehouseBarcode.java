@@ -39,6 +39,10 @@ public class RedHubWarehouseBarcode extends LinearOpMode {
                 dropPosition = LlamaBot.ARM_POSITION_L3_DROP;
             }
         }
+
+        // Potential sleep to prevent robot collision with other team
+        sleep(0);
+
         robot.driveForwardByTime(-1, 800);
         robot.driveForwardByTime(-0.3, 200);
 
