@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name = "BLUEHubParkBarcode", group = "18051")
-public class BlueHubParkBarcode extends LinearOpMode {
+@Autonomous(name = "BLUEDuckHubStorageBarcode", group = "18051")
+public class BlueDuckHubStorageBarcode extends LinearOpMode {
 
     LlamaBot robot = new LlamaBot();
 
@@ -27,7 +27,7 @@ public class BlueHubParkBarcode extends LinearOpMode {
         } else {
             robot.strafeLeftByTime(0.3, 3000);
             double distance = robot.distance.getDistance(DistanceUnit.CM);
-            robot.strafeRightByTime(0.3, 2200);
+            robot.strafeRightByTime(0.3, 2500);
 
             if (distance < 35) {
                 // L2
@@ -41,8 +41,8 @@ public class BlueHubParkBarcode extends LinearOpMode {
         }
         robot.driveForwardByTime(-1, 800);
         robot.driveForwardByTime(-0.3, 200);
+        robot.strafeLeftByTime(1, 1000);
 
-        robot.strafeRightByTime(1, 1000);
 
         if (dropPosition == LlamaBot.ARM_POSITION_L3_DROP) {
             robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1200);
@@ -53,8 +53,14 @@ public class BlueHubParkBarcode extends LinearOpMode {
         robot.openClaw(300);
         robot.driveForwardByTime(-1, 1300);
         robot.driveForwardByTime(-0.3, 600);
-        robot.strafeLeftByTime(robot.DRIVE_SPEED * 4, 3700);
+        robot.driveForwardByTime(1, 214);
+        robot.strafeRightByTime(1, 1300);
+        robot.strafeRightByTime(0.3, 300);
+        robot.spin(true, 4200);
+        robot.driveForwardByTime(1, 642);
+        robot.strafeRightByTime(1, 800);
         robot.armMoveToPosition(LlamaBot.ARM_POSITION_FLOOR, this);
     }
 }
+
 

@@ -2,10 +2,11 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name = "ZZBLUEHubParkBarcode2", group = "18051")
-public class ZZBlueHubParkBarcode2 extends LinearOpMode {
+@Autonomous(name = "REDDuckHubWarehouseBarcode", group = "18051")
+public class RedDuckHubWarehouseBarcode extends LinearOpMode {
 
     LlamaBot robot = new LlamaBot();
 
@@ -27,7 +28,7 @@ public class ZZBlueHubParkBarcode2 extends LinearOpMode {
         } else {
             robot.strafeLeftByTime(0.3, 3000);
             double distance = robot.distance.getDistance(DistanceUnit.CM);
-            robot.strafeRightByTime(0.3, 2200);
+            robot.strafeRightByTime(0.3, 2500);
 
             if (distance < 35) {
                 // L2
@@ -41,21 +42,26 @@ public class ZZBlueHubParkBarcode2 extends LinearOpMode {
         }
         robot.driveForwardByTime(-1, 800);
         robot.driveForwardByTime(-0.3, 200);
+        robot.strafeRightByTime(1, 700);
 
-        robot.strafeRightByTime(1, 1000);
 
-        robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 900);
-        robot.driveForward(0.2);
-        while (robot.distance.getDistance(DistanceUnit.CM) > 4) {
-            idle();
+        if (dropPosition == LlamaBot.ARM_POSITION_L3_DROP) {
+            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1200);
+        } else {
+            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1120);
         }
-        robot.driveForwardByTime(0.1, 300);
         robot.armMoveToPosition(dropPosition, this);
         robot.openClaw(300);
         robot.driveForwardByTime(-1, 1300);
         robot.driveForwardByTime(-0.3, 600);
-        robot.strafeLeftByTime(robot.DRIVE_SPEED * 4, 3700);
+        robot.driveForwardByTime(1, 214);
+        robot.strafeLeftByTime(1, 1300);
+        robot.strafeLeftByTime(0.3, 300);
+        robot.spin(false, 4200);
+        robot.driveForwardByTime(-1, 300);
+        robot.strafeRightByTime(1, 3000);
         robot.armMoveToPosition(LlamaBot.ARM_POSITION_FLOOR, this);
     }
 }
+
 

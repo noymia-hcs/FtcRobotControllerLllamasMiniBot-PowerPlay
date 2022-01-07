@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name = "REDHubParkBarcode", group = "18051")
-public class RedHubParkBarcode extends LinearOpMode {
+@Autonomous(name = "REDHubWarehouseBarcode", group = "18051")
+public class RedHubWarehouseBarcode extends LinearOpMode {
 
     LlamaBot robot = new LlamaBot();
 

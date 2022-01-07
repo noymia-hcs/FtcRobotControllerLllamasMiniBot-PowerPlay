@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @Autonomous(name = "BLUEDuckHubWarehouseBarcode", group = "18051")
@@ -41,6 +42,7 @@ public class BlueDuckHubWarehouseBarcode extends LinearOpMode {
         }
         robot.driveForwardByTime(-1, 800);
         robot.driveForwardByTime(-0.3, 200);
+        robot.strafeLeftByTime(1, 1000);
 
 
         if (dropPosition == LlamaBot.ARM_POSITION_L3_DROP) {
@@ -56,11 +58,9 @@ public class BlueDuckHubWarehouseBarcode extends LinearOpMode {
         robot.strafeRightByTime(1, 1300);
         robot.strafeRightByTime(0.3, 300);
         robot.spin(true, 4200);
-        robot.driveForwardByTime(1, 642);
-        robot.strafeRightByTime(1, 800);
-
-
-
+        robot.driveForwardByTime(-1, 300);
+        robot.strafeLeftByTime(1, 3000);
+        robot.armMoveToPosition(LlamaBot.ARM_POSITION_FLOOR, this);
     }
 }
 

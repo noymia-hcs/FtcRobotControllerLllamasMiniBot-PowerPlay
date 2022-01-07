@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name = "ZZBLUEHubParkBarcode2", group = "18051")
-public class ZZBlueHubParkBarcode2 extends LinearOpMode {
+@Autonomous(name = "BLUEHubWarehouseBarcode", group = "18051")
+public class BlueHubWarehouseBarcode extends LinearOpMode {
 
     LlamaBot robot = new LlamaBot();
 
@@ -44,12 +44,11 @@ public class ZZBlueHubParkBarcode2 extends LinearOpMode {
 
         robot.strafeRightByTime(1, 1000);
 
-        robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 900);
-        robot.driveForward(0.2);
-        while (robot.distance.getDistance(DistanceUnit.CM) > 4) {
-            idle();
+        if (dropPosition == LlamaBot.ARM_POSITION_L3_DROP) {
+            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1200);
+        } else {
+            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1120);
         }
-        robot.driveForwardByTime(0.1, 300);
         robot.armMoveToPosition(dropPosition, this);
         robot.openClaw(300);
         robot.driveForwardByTime(-1, 1300);
