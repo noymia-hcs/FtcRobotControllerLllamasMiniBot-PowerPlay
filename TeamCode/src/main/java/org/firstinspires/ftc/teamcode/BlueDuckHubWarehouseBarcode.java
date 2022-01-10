@@ -46,24 +46,24 @@ public class BlueDuckHubWarehouseBarcode extends LinearOpMode {
 
         robot.driveForwardByTime(-1, 800);
         robot.driveForwardByTime(-0.3, 200);
-        robot.strafeLeftByTime(1, 1000);
+        robot.strafeLeftByTime(1, 2000);
 
 
         if (dropPosition == LlamaBot.ARM_POSITION_L3_DROP) {
-            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1200);
+            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1300);
         } else {
-            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1120);
+            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1200);
         }
         robot.armMoveToPosition(dropPosition, this);
         robot.openClaw(300);
-        robot.driveForwardByTime(-1, 1300);
+        robot.driveForwardByTime(-1, 1400);
         robot.driveForwardByTime(-0.3, 600);
         robot.driveForwardByTime(1, 214);
-        robot.strafeRightByTime(1, 1300);
+        robot.strafeRightByTime(1, 2600);
         robot.strafeRightByTime(0.3, 300);
         robot.spin(true, 4200);
         robot.driveForwardByTime(-1, 300);
-        robot.strafeLeftByTime(1, 3000);
+        robot.strafeLeftByTime(1, 7500);
         robot.armMoveToPosition(LlamaBot.ARM_POSITION_FLOOR, this);
     }
 }

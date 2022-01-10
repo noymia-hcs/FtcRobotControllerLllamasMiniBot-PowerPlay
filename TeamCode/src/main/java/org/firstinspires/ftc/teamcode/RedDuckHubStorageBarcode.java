@@ -45,24 +45,24 @@ public class RedDuckHubStorageBarcode extends LinearOpMode {
 
         robot.driveForwardByTime(-1, 800);
         robot.driveForwardByTime(-0.3, 200);
-        robot.strafeRightByTime(1, 700);
+        robot.strafeRightByTime(1, 1400);
 
 
         if (dropPosition == LlamaBot.ARM_POSITION_L3_DROP) {
-            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1200);
+            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1300);
         } else {
-            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1120);
+            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1200);
         }
         robot.armMoveToPosition(dropPosition, this);
         robot.openClaw(300);
-        robot.driveForwardByTime(-1, 1300);
+        robot.driveForwardByTime(-1, 1400);
         robot.driveForwardByTime(-0.3, 600);
         robot.driveForwardByTime(1, 214);
-        robot.strafeLeftByTime(1, 1300);
+        robot.strafeLeftByTime(1, 3300);
         robot.strafeLeftByTime(0.3, 300);
         robot.spin(false, 4200);
-        robot.driveForwardByTime(1, 642);
-        robot.strafeLeftByTime(1, 800);
+        robot.driveForwardByTime(1, 942);
+        robot.strafeLeftByTime(1, 1000);
         robot.armMoveToPosition(LlamaBot.ARM_POSITION_FLOOR, this);
     }
 }
