@@ -58,6 +58,7 @@ public class RedHubWarehouseBarcode extends LinearOpMode {
             robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1080);
         }
         robot.armMoveToPosition(dropPosition, this);
+
         robot.openClaw(300);
         robot.driveForwardByTime(-1, 1400);
         robot.driveForwardByTime(-0.3, 600);
