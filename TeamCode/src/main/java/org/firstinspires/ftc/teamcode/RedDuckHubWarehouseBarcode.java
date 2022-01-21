@@ -26,9 +26,9 @@ public class RedDuckHubWarehouseBarcode extends LinearOpMode {
             // L3
             dropPosition = LlamaBot.ARM_POSITION_L3_DROP;
         } else {
-            robot.strafeLeftByTime(0.3, 3000);
+            robot.strafeLeftByTime(0.3, 2250);
             double distance = robot.distance.getDistance(DistanceUnit.CM);
-            robot.strafeRightByTime(0.3, 2500);
+            robot.strafeRightByTime(0.3, 2200);
 
             if (distance < 35) {
                 // L2
@@ -46,22 +46,26 @@ public class RedDuckHubWarehouseBarcode extends LinearOpMode {
 
         robot.driveForwardByTime(-1, 800);
         robot.driveForwardByTime(-0.3, 200);
-        robot.strafeRightByTime(1, 1400);
-
 
         if (dropPosition == LlamaBot.ARM_POSITION_L3_DROP) {
-            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1300);
+            robot.strafeRightByTime(1, 1200);
+            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1220);
         } else {
+            robot.strafeRightByTime(1, 1150);
             robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1200);
         }
         robot.armMoveToPosition(dropPosition, this);
         robot.openClaw(300);
         robot.driveForwardByTime(-1, 1400);
         robot.driveForwardByTime(-0.3, 600);
+
+        // go to spin duck
         robot.driveForwardByTime(1, 214);
         robot.strafeLeftByTime(1, 3300);
         robot.strafeLeftByTime(0.3, 300);
         robot.spin(false, 4200);
+
+        // driving to warehouse
         robot.driveForwardByTime(-1, 300);
         robot.strafeRightByTime(1, 7500);
         robot.armMoveToPosition(LlamaBot.ARM_POSITION_FLOOR, this);

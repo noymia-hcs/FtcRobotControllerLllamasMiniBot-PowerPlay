@@ -25,7 +25,7 @@ public class RedHubWarehouseBarcode extends LinearOpMode {
             // L1
             dropPosition = LlamaBot.ARM_POSITION_L1_DROP;
         } else {
-            robot.strafeRightByTime(0.3, 3000);
+            robot.strafeRightByTime(0.3, 2250);
             double distance = robot.distance.getDistance(DistanceUnit.CM);
             robot.strafeLeftByTime(0.3, 2200);
 
@@ -46,12 +46,16 @@ public class RedHubWarehouseBarcode extends LinearOpMode {
         robot.driveForwardByTime(-1, 800);
         robot.driveForwardByTime(-0.3, 200);
 
-        robot.strafeLeftByTime(1, 2000);
 
         if (dropPosition == LlamaBot.ARM_POSITION_L3_DROP) {
-            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1300);
-        } else {
+            robot.strafeLeftByTime(1, 1000);
             robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1200);
+        } else {
+            if (dropPosition == LlamaBot.ARM_POSITION_L1_DROP) {
+                robot.armMoveToPosition(LlamaBot.ARM_POSITION_L1_DRIVE, this);
+            }
+            robot.strafeLeftByTime(1, 900);
+            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1080);
         }
         robot.armMoveToPosition(dropPosition, this);
         robot.openClaw(300);
