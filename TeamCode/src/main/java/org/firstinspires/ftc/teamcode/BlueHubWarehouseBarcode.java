@@ -43,10 +43,11 @@ public class BlueHubWarehouseBarcode extends LinearOpMode {
         // Potential sleep to prevent robot collision with other team
         sleep(0);
 
+        // Drive back to wall
         robot.driveForwardByTime(-1, 800);
         robot.driveForwardByTime(-0.3, 200);
 
-
+        // Strafe right and forward based on position (L3 require different values)
         if (dropPosition == LlamaBot.ARM_POSITION_L3_DROP) {
             robot.strafeRightByTime(1, 1200);
             robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1220);
@@ -54,12 +55,15 @@ public class BlueHubWarehouseBarcode extends LinearOpMode {
             robot.strafeRightByTime(1, 1150);
             robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1200);
         }
+
+        // Drop cube
         robot.armMoveToPosition(dropPosition, this);
         robot.openClaw(300);
+
+        // Go back to wall and drive to warehouse
         robot.driveForwardByTime(-1, 1400);
         robot.driveForwardByTime(-0.3, 600);
         robot.strafeLeftByTime(robot.DRIVE_SPEED * 4, 3700);
         robot.armMoveToPosition(LlamaBot.ARM_POSITION_FLOOR, this);
     }
 }
-

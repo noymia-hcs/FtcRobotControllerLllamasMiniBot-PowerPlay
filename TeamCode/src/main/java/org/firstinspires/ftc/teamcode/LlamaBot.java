@@ -272,6 +272,59 @@ public class LlamaBot
         driveForward(0);
     }
 
+    public float getCurrentZ() {
+        Orientation o = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        return o.firstAngle;
+    }
+
+    public void turn(double power, float angle, LinearOpMode opmode) {
+        if (angle < -180 || angle > 180) {
+            // Invalid angle provided!!!
+            return;
+        }
+        float startPos = getCurrentZ();
+        if (angle < 0) {
+            turnRight(power);
+            /*
+            while ((getCurrentZ() - startPos) > angle) {
+                opmode.idle();
+            }
+             */
+            while (true) {
+                float delta = (getCurrentZ() - startPos) - angle;
+//                opmode.telemetry.addData("delta", delta);
+//                opmode.telemetry.addData("currZ", getCurrentZ());
+//                opmode.telemetry.addData("startPos", startPos);
+//                opmode.telemetry.addData("angle", angle);
+//                opmode.telemetry.update();
+                if (delta < 1) {
+                    break;
+                }
+                if (delta <= 20 && power > 0.3) {
+                    turnRight(0.3);
+                }
+            }
+            turnRight(0);
+        } else {
+            turnLeft(power);
+            /*
+            while ((getCurrentZ() - startPos) < angle) {
+                opmode.idle();
+            }
+             */
+            while (true) {
+                float delta = angle - (getCurrentZ() - startPos);
+                if (delta < 1) {
+                    break;
+                }
+                if (delta <= 10 && power > 0.3) {
+                    turnRight(0.3);
+                }
+            }
+            turnLeft(0);
+        }
+    }
+
     public void turnLeft(double power) {
         motorFrontLeft.setPower(-power);
         motorFrontRight.setPower(power);
@@ -336,6 +389,32 @@ public class LlamaBot
 
     public void strafeRightByTime(double power, long time) throws InterruptedException {
         strafeRight(power);
+        Thread.sleep(time);
+        stopDriving();
+    }
+
+    public void driveDiagonal(boolean forward, boolean right, double power) {
+        if (forward && right) {
+            // Forward & Right
+            motorFrontLeft.setPower(power);
+            motorRearRight.setPower(power);
+        } else if (forward) {
+            // Forward & Left
+            motorRearLeft.setPower(power);
+            motorFrontRight.setPower(power);
+        } else if (right) {
+            // Backward & Right
+            motorRearLeft.setPower(-power);
+            motorFrontRight.setPower(-power);
+        } else {
+            // Backward & Left
+            motorFrontLeft.setPower(-power);
+            motorRearRight.setPower(-power);
+        }
+    }
+
+    public void driveDiagonalByTime(boolean forward, boolean right, double power, long time) throws InterruptedException {
+        driveDiagonal(forward, right, power);
         Thread.sleep(time);
         stopDriving();
     }

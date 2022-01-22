@@ -26,9 +26,9 @@ public class BlueDuckHubWarehouseBarcode extends LinearOpMode {
             // L3
             dropPosition = LlamaBot.ARM_POSITION_L3_DROP;
         } else {
-            robot.strafeLeftByTime(0.3, 3000);
+            robot.strafeLeftByTime(0.3, 2250);
             double distance = robot.distance.getDistance(DistanceUnit.CM);
-            robot.strafeRightByTime(0.3, 2500);
+            robot.strafeRightByTime(0.3, 2200);
 
             if (distance < 35) {
                 // L2
@@ -44,28 +44,38 @@ public class BlueDuckHubWarehouseBarcode extends LinearOpMode {
         // Potential sleep to prevent robot collision with other team
         sleep(0);
 
+        // Drive back to wall
         robot.driveForwardByTime(-1, 800);
         robot.driveForwardByTime(-0.3, 200);
-        robot.strafeLeftByTime(1, 2000);
 
-
+        // Strafe left and forward based on position (L3 require different values)
         if (dropPosition == LlamaBot.ARM_POSITION_L3_DROP) {
-            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1300);
+            robot.strafeLeftByTime(1, 1200);
+            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1220);
         } else {
+            robot.strafeLeftByTime(1, 1150);
             robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1200);
         }
+
+        // Drop cube
         robot.armMoveToPosition(dropPosition, this);
         robot.openClaw(300);
+
+        // Go back to wall
         robot.driveForwardByTime(-1, 1400);
         robot.driveForwardByTime(-0.3, 600);
+
+        // Move forward a bit and then strafe left for duck spin position
         robot.driveForwardByTime(1, 214);
         robot.strafeRightByTime(1, 2600);
         robot.strafeRightByTime(0.3, 300);
+
+        // Spin duck
         robot.spin(true, 4200);
         robot.driveForwardByTime(-1, 300);
-        robot.strafeLeftByTime(1, 7500);
+
+        // Go to warehouse
+        robot.driveDiagonalByTime(false, false, 1, 7500);
         robot.armMoveToPosition(LlamaBot.ARM_POSITION_FLOOR, this);
     }
 }
-
-
