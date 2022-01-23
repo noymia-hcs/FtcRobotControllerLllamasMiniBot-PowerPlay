@@ -49,10 +49,10 @@ public class BlueDuckHubStorageBarcode extends LinearOpMode {
 
         // Strafe left and forward based on position (L3 require different values)
         if (dropPosition == LlamaBot.ARM_POSITION_L3_DROP) {
-            robot.strafeLeftByTime(1, 1200);
+            robot.strafeLeftByTime(1, 1920);
             robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1220);
         } else {
-            robot.strafeLeftByTime(1, 1150);
+            robot.strafeLeftByTime(1, 1950);
             robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1200);
         }
 
