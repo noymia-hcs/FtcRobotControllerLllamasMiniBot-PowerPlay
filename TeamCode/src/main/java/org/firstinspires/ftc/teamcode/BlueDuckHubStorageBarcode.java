@@ -49,11 +49,11 @@ public class BlueDuckHubStorageBarcode extends LinearOpMode {
 
         // Strafe left and forward based on position (L3 require different values)
         if (dropPosition == LlamaBot.ARM_POSITION_L3_DROP) {
-            robot.strafeLeftByTime(1, 1920);
+            robot.strafeLeftByTime(1, 1900);
             robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1220);
         } else {
             robot.strafeLeftByTime(1, 1950);
-            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1200);
+            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1220);
         }
 
         // Drop cube
@@ -62,19 +62,19 @@ public class BlueDuckHubStorageBarcode extends LinearOpMode {
 
         // Go back to wall
         robot.driveForwardByTime(-1, 1400);
-        robot.driveForwardByTime(-0.3, 600);
+       // robot.driveForwardByTime(-0.3, 600);
 
         // Move forward a bit and then strafe left for duck spin position
-        robot.driveForwardByTime(1, 214);
-        robot.strafeRightByTime(1, 2600);
-        robot.strafeRightByTime(0.3, 300);
+        robot.driveForwardByTime(1, 200);
+        robot.strafeRightByTime(1, 2750);
+        robot.driveDiagonalByTime(false, true, 0.3, 400);
 
         // Spin duck
-        robot.spin(true, 4200);
+        robot.spin(true, 3000);
 
         // Go to storage unit
-        robot.driveForwardByTime(1, 942);
-        robot.strafeRightByTime(1, 1000);
+        robot.driveForwardByTime(1, 950);
+        robot.strafeRightByTime(1, 500);
         robot.armMoveToPosition(LlamaBot.ARM_POSITION_FLOOR, this);
     }
 }
