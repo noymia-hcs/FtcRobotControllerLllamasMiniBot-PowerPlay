@@ -21,7 +21,7 @@ public class BlueHubWarehouseBarcode extends LinearOpMode {
 
         int dropPosition = LlamaBot.ARM_POSITION_L3_DROP;
 
-        if (robot.distance.getDistance(DistanceUnit.CM) < 35) {
+        if (robot.distance.getDistance(DistanceUnit.CM) < LlamaBot.ELEMENT_THRESHHOLD) {
             // L3
             dropPosition = LlamaBot.ARM_POSITION_L3_DROP;
         } else {
@@ -29,7 +29,7 @@ public class BlueHubWarehouseBarcode extends LinearOpMode {
             double distance = robot.distance.getDistance(DistanceUnit.CM);
             robot.strafeRightByTime(0.3, 2200);
 
-            if (distance < 35) {
+            if (distance < LlamaBot.ELEMENT_THRESHHOLD) {
                 // L2
                 robot.armMoveToPosition(LlamaBot.ARM_POSITION_L2_DRIVE, this);
                 dropPosition = LlamaBot.ARM_POSITION_L2_DROP;
