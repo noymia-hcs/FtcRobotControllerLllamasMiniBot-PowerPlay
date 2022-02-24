@@ -158,6 +158,13 @@ public class Teleop extends LinearOpMode {
             }
 
             telemetry.addData("Distance Sensor", robot.distance.getDistance(DistanceUnit.CM));
+            telemetry.addData("Z absolute", robot.getCurrentZ());
+            telemetry.addData("encoders",
+                    "FL=%d RL=%d FR=%d RR=%d",
+                    robot.motorFrontLeft.getCurrentPosition(),
+                    robot.motorRearLeft.getCurrentPosition(),
+                    robot.motorFrontRight.getCurrentPosition(),
+                    robot.motorRearRight.getCurrentPosition());
             telemetry.update();
         }
     }

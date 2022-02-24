@@ -246,6 +246,11 @@ public class LlamaBot
 
     public void initRunWithoutEncoder()
     {
+        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorRearLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorRearRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorRearLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

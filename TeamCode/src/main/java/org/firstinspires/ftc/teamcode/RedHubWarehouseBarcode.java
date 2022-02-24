@@ -51,10 +51,10 @@ public class RedHubWarehouseBarcode extends LinearOpMode {
         // Strafe left and forward based on position (L3 require different values)
         if (dropPosition == LlamaBot.ARM_POSITION_L3_DROP) {
             robot.strafeLeftByTime(1, 850);
-            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1250);
+            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1200);
         } else {
             robot.strafeLeftByTime(1, 800);
-            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1130);
+            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1080);
         }
 
         // Drop cube

@@ -49,10 +49,10 @@ public class RedDuckHubStorageBarcode extends LinearOpMode {
 
         // Strafe right and forward based on position (L3 require different values)
         if (dropPosition == LlamaBot.ARM_POSITION_L3_DROP) {
-            robot.strafeRightByTime(1, 1200);
-            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1240);
+            robot.strafeRightByTime(1, 1120);
+            robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1300);
         } else {
-            robot.strafeRightByTime(1, 1150);
+            robot.strafeRightByTime(1, 1070);
             robot.driveForwardByTime(1/*robot.DRIVE_SPEED * 4*/, 1220);
         }
 
